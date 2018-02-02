@@ -1,0 +1,34 @@
+{
+    "name": "lemberg/laravel-code-style-command",
+    "description": "Check code style.",
+    "license": "Apache License 2.0",
+    "homepage": "https://github.com/lemberg/laravel-code-style-command",
+    "authors": [
+        {
+            "name": "Bohdan Khrupa",
+            "email": "bohdan.khrupa@lemberg.co.uk"
+        }
+    ],
+    "require": {
+        "php": ">=7.0.0",
+        "laravel/framework": "5.4.*|5.5.*",
+        "laravel/tinker": "~1.0",
+        "squizlabs/php_codesniffer": "3.2.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Lemberg\\LaravelCsc\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Lemberg\\LaravelCsc\\LaravelCscServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true,
+        "optimize-autoloader": true
+    }
+}
