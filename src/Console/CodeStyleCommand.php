@@ -35,7 +35,7 @@ class CodeStyleCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Check your application code style. Default `app\` directory.';
+    protected $description = 'Check your application code style. Default `app/` directory.';
 
     /**
      * Full path to phpcs command
