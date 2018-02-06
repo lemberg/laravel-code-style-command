@@ -1,7 +1,7 @@
 # Laravel Code Style Command
 
 This package adds simple `artisan` command over [PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer) script.
-Validate [PSR2](https://www.php-fig.org/psr/psr-2/) coding standard in.
+Validate [PSR2](https://www.php-fig.org/psr/psr-2/) coding standard in you application.
 
 ## Requirements
 
@@ -13,7 +13,7 @@ Validate [PSR2](https://www.php-fig.org/psr/psr-2/) coding standard in.
 Add the package in your `composer.json`
 
 ```
-$ composer require --dev lember/laravel-code-style-command
+$ composer require --dev lemberg/laravel-code-style-command
 ```
 
 Add Service Provider (Only for Laravel 5.4)
@@ -58,7 +58,7 @@ $ php artisan code-style --help
 
 ### Config file
 
-Publish default config file.
+Publish `code-style.php` config file.
 
 ```
 $ php artisan vendor:publish --provider="Lemberg\LaravelCsc\LaravelCscServiceProvider"
