@@ -48,13 +48,17 @@ class CodeStyleCommand extends Command
     /**
      * Create a new command instance.
      *
+     * @throws \ReflectionException
      * @return void
      */
     public function __construct()
     {
         parent::__construct();
 
-        $this->phpcsPath = base_path('vendor/bin/phpcs');
+        $reflection = new \ReflectionClass(\Composer\Autoload\ClassLoader::class);
+        $vendorDir = dirname(dirname($reflection->getFileName()));
+
+        $this->phpcsPath = $vendorDir . DIRECTORY_SEPARATOR . 'bin/phpcs';
     }
 
     /**

@@ -7,6 +7,7 @@ use Lemberg\LaravelCsc\Console\CodeStyleCommand;
 
 class LaravelCscServiceProvider extends ServiceProvider
 {
+    // TODO investigate `deferer` property
     public function boot()
     {
         $this->publishes(
