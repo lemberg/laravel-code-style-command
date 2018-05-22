@@ -84,4 +84,4 @@ $ chmod +x .git/hooks/pre-commit
 
 ## License
 
-The Apache License. Please see [License File](LICENSE.md) for more information.
+Please see [License File](LICENSE.md) for more information.
