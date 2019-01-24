@@ -83,7 +83,11 @@ class CodeStyleCommand extends Command
 
         $process->run();
 
-        echo $process->getOutput();
+        // The exit code is 1 as the operation was not successful.
+        if ($process->getExitCode() > 0) {
+            echo $process->getOutput();
+            exit(1);
+        }
 
         $this->info('Finished');
     }
