@@ -19,15 +19,14 @@ matrix:
       env: ILLUMINATE_VERSION=5.4.* PHPUNIT_VERSION=~7.0
     - php: 7.0
       env: ILLUMINATE_VERSION=5.5.* PHPUNIT_VERSION=~7.0
-    - php: 7.1
-      env: ILLUMINATE_VERSION=5.6.* PHPUNIT_VERSION=~7.1
-    - php: 7.1
-      env: ILLUMINATE_VERSION=5.7.* PHPUNIT_VERSION=~7.1
-    - php: 7.1
-      env: ILLUMINATE_VERSION=5.8.* PHPUNIT_VERSION=~7.1
+#    - php: 7.1
+#      env: ILLUMINATE_VERSION=5.6.* PHPUNIT_VERSION=~7.1
+#    - php: 7.1
+#      env: ILLUMINATE_VERSION=5.7.* PHPUNIT_VERSION=~7.1
+#    - php: 7.1
+#      env: ILLUMINATE_VERSION=5.8.* PHPUNIT_VERSION=~7.1
 
 before_install:
-  - echo "memory_limit=2G" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   - composer require "illuminate/support:${ILLUMINATE_VERSION}" --no-update --prefer-dist
   - composer require "phpunit/phpunit:${PHPUNIT_VERSION}" --no-update --prefer-dist
 
