@@ -4,7 +4,6 @@ namespace Lemberg\LaravelCsc\Console;
 
 use Illuminate\Console\Command;
 use Symfony\Component\Process\Process;
-use Symfony\Component\Process\ProcessBuilder;
 
 /**
  * Class CodeStyleCommand
@@ -27,7 +26,7 @@ class CodeStyleCommand extends Command
      */
     protected $signature = 'code-style
         {--changes : Git, only new or changed files.}
-        {--printCommand : Just print phpCs full command.}
+        {--print-command : Just print phpCs full command.}
         {--dirs= : Set paths (comma separated). Relative or absolute path. Option has priority}';
 
     /**
@@ -43,6 +42,11 @@ class CodeStyleCommand extends Command
      * @var string
      */
     protected $phpcsPath;
+
+    /**
+     * @var array
+     */
+    protected $dirs = [];
 
 
     /**
@@ -73,19 +77,26 @@ class CodeStyleCommand extends Command
             exit(1);
         }
 
-        $process = $this->prepareProcess();
+        $this->prepareDirs();
+
+        if (empty($this->dirs)) {
+            $this->error('no directories found');
+            exit(1);
+        }
+
+        $phpCsProcess = $this->getPhpCsProcess();
 
         // print compiled command
-        if ($this->input->getOption('printCommand')) {
-            echo str_replace('\'', '', $process->getCommandLine());
+        if ($this->input->getOption('print-command')) {
+            echo str_replace('\'', '', $phpCsProcess->getCommandLine());
             exit;
         }
 
-        $process->run();
+        $phpCsProcess->run();
 
         // The exit code is 1 as the operation was not successful.
-        if ($process->getExitCode() > 0) {
-            echo $process->getOutput();
+        if ($phpCsProcess->getExitCode() > 0) {
+            echo $phpCsProcess->getOutput();
             exit(1);
         }
 
@@ -95,9 +106,9 @@ class CodeStyleCommand extends Command
     /**
      * Prepare folders for validation
      *
-     * @return string
+     * @return self
      */
-    protected function getDirs()
+    protected function prepareDirs()
     {
         // Get dirs for validation from config
         $dirs = config('code-style.dirs', []);
@@ -114,9 +125,13 @@ class CodeStyleCommand extends Command
 
         // Changes
         if ($this->input->getOption('changes')) {
+            // TODO check git
             // git ls-files -om --exclude-standard --directory 'app/'
-            $process = new Process('git ls-files -om --exclude-standard --full-name --directory ' . $dirs);
+            $process = new Process(
+                'git ls-files -om --exclude-standard --full-name --directory ' . implode(' ', $dirs)
+            );
             $process->enableOutput();
+
             $process->run();
 
             $changes = explode(PHP_EOL, $process->getOutput());
@@ -128,26 +143,26 @@ class CodeStyleCommand extends Command
             });
         }
 
-        return implode(' ', $dirs);
+        $this->dirs = $dirs;
+
+        return $this;
     }
 
     /**
      * @return Process
      */
-    protected function prepareProcess()
+    protected function getPhpCsProcess()
     {
-        // Build command with arguments
-        $builder = new ProcessBuilder();
-        $builder->setPrefix($this->phpcsPath);
+        // vendor/bin/phpcs --standard="PSR2" --colors DIRS
+        $command = sprintf(
+            '%s %s %s',
+            $this->phpcsPath,
+            implode(' ', config('code-style.arguments')),
+            implode(' ', $this->dirs)
+        );
 
-        // vendor/bin/phpcs --standard="PSR2" --colors dirOrFile
-        $cmd = $builder
-            ->setArguments(config('code-style.arguments'))
-            ->getProcess()
-            ->getCommandLine();
-
-        // add $dirs to $cmd
-        $process = new Process($cmd . ' ' . $this->getDirs(), base_path(''));
+        // Build command
+        $process = new Process($command, base_path());
         $process->enableOutput();
 
         return $process;

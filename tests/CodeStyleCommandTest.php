@@ -14,6 +14,9 @@ use PHPUnit\Framework\TestCase;
 class CodeStyleCommandTest extends TestCase
 {
 
+    /**
+     * @throws \ReflectionException
+     */
     public function testUselessInstance()
     {
         $instance = new CodeStyleCommand();

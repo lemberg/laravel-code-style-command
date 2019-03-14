@@ -4,8 +4,26 @@ php:
   - 7.0
   - 7.1
 
+env:
+  - ILLUMINATE_VERSION=5.5.* PHPUNIT_VERSION=~7.0
+  - ILLUMINATE_VERSION=5.6.* PHPUNIT_VERSION=~7.1
+  - ILLUMINATE_VERSION=5.7.* PHPUNIT_VERSION=~7.1
+  - ILLUMINATE_VERSION=5.8.* PHPUNIT_VERSION=~7.1
+
+matrix:
+  # For each PHP version we exclude the coverage env, except for PHP 7.1
+  exclude:
+    - php: 7.0
+      env: ILLUMINATE_VERSION=5.5.* PHPUNIT_VERSION=~7.0
+    - php: 7.1
+      env: ILLUMINATE_VERSION=5.6.* PHPUNIT_VERSION=~7.1
+    - php: 7.1
+      env: ILLUMINATE_VERSION=5.7.* PHPUNIT_VERSION=~7.1
+    - php: 7.1
+      env: ILLUMINATE_VERSION=5.8.* PHPUNIT_VERSION=~7.1
+
 sudo: false
 
 install: travis_retry composer install --no-interaction --prefer-dist
 
-script: vendor/bin/phpunit --verbose
+script: vendor/bin/phpunit

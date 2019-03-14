@@ -6,7 +6,7 @@ Validate [PSR2](https://www.php-fig.org/psr/psr-2/) coding standard in you appli
 ## Requirements
 
 * PHP >= `7.0`
-* Laravel = `5.4.*|5.5.*`
+* Laravel = `5.5.*|5.8.*`
 
 ## Getting Started
 
@@ -14,14 +14,6 @@ Add the package in your `composer.json`
 
 ```
 $ composer require --dev lemberg/laravel-code-style-command
-```
-
-Add Service Provider (Only for Laravel 5.4)
-
-```
-'providers' => [
-    Lemberg\LaravelCsc\LaravelCscServiceProvider::class,
-],
 ```
 
 So that's all :)
@@ -73,7 +65,7 @@ Add next code to pre commit hooks file **.git/hooks/pre-commit**.
 ```
 #!/bin/bash
 
-`php ./artisan code-style --printCommand`
+`php ./artisan code-style --print-command`
 ```
 
 `pre-commit` hook must be executable
